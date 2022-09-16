@@ -5,6 +5,7 @@ import com.vti.form.ProductCreateForm;
 import com.vti.form.ProductFilterForm;
 import com.vti.form.ProductUpdateForm;
 import com.vti.repository.IProductRepository;
+import com.vti.specification.ProductSpecification;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,8 +22,7 @@ public class ProductService implements IProductService {
 
     @Override
     public Page<Product> findAll(Pageable pageable, ProductFilterForm form) {
-        // TODO: 9/16/2022
-        return null;
+        return repository.findAll(ProductSpecification.buildWhere(form), pageable);
     }
 
     @Override
