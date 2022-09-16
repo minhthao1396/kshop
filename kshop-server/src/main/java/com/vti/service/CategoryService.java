@@ -5,6 +5,7 @@ import com.vti.form.CategoryCreateForm;
 import com.vti.form.CategoryFilterForm;
 import com.vti.form.CategoryUpdateForm;
 import com.vti.repository.ICategoryRepository;
+import com.vti.specification.CategorySpecification;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,8 +22,7 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public Page<Category> findAll(Pageable pageable, CategoryFilterForm form) {
-        // TODO: 9/16/2022
-        return null;
+        return repository.findAll(CategorySpecification.buildWhere(form), pageable);
     }
 
     @Override
