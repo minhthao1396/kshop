@@ -1,10 +1,10 @@
 package com.vti.service;
 
-import com.vti.entity.Category;
-import com.vti.form.CategoryCreateForm;
-import com.vti.form.CategoryFilterForm;
-import com.vti.form.CategoryUpdateForm;
-import com.vti.repository.ICategoryRepository;
+import com.vti.entity.Product;
+import com.vti.form.ProductCreateForm;
+import com.vti.form.ProductFilterForm;
+import com.vti.form.ProductUpdateForm;
+import com.vti.repository.IProductRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,31 +12,32 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CategoryService implements ICategoryService {
+public class ProductService implements IProductService {
     @Autowired
-    private ICategoryRepository repository;
+    private IProductRepository repository;
 
     @Autowired
     private ModelMapper mapper;
 
     @Override
-    public Page<Category> findAll(Pageable pageable, CategoryFilterForm form) {
-        return repository.findAll();
+    public Page<Product> findAll(Pageable pageable, ProductFilterForm form) {
+        // TODO: 9/16/2022
+        return null;
     }
 
     @Override
-    public Category findById(int id) {
+    public Product findById(int id) {
         return repository.findById(id).orElse(null);
     }
 
     @Override
-    public void create(CategoryCreateForm form) {
-        repository.save(mapper.map(form, Category.class));
+    public void create(ProductCreateForm form) {
+        repository.save(mapper.map(form, Product.class));
     }
 
     @Override
-    public void update(CategoryUpdateForm form) {
-        repository.save(mapper.map(form, Category.class));
+    public void update(ProductUpdateForm form) {
+        repository.save(mapper.map(form, Product.class));
     }
 
     @Override
