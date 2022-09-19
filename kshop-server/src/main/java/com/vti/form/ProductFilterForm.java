@@ -15,8 +15,7 @@ public class ProductFilterForm {
     private Integer categoryId;
     private Double minSalePrice;
     private Double maxSalePrice;
-    private Product.Ram minRam;
-    private Product.Ram maxRam;
+    private Product.Ram ram;
     private Integer minYear;
     private Integer maxYear;
     private LocalDate minCreatedDate;
