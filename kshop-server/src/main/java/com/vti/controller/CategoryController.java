@@ -16,6 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
+
 @RestController
 @RequestMapping("/api/v1/categories")
 public class CategoryController {
@@ -32,13 +35,24 @@ public class CategoryController {
                 page.getContent(),
                 new TypeToken<List<CategoryDTO>>() {}.getType()
         );
+
+        for (CategoryDTO categoryDTO : dtos) {
+            List<CategoryDTO.ProductDTO> productDTOS = categoryDTO.getProducts();
+            for (CategoryDTO.ProductDTO productDTO : productDTOS) {
+                productDTO.add(linkTo(methodOn(ProductController.class).findById(productDTO.getId())).withSelfRel());
+            }
+            categoryDTO.add(linkTo(methodOn(CategoryController.class).findById(categoryDTO.getId())).withSelfRel());
+        }
+
         return new PageImpl<>(dtos, pageable, page.getTotalElements());
     }
 
     @GetMapping("/{id}")
     public CategoryDTO findById(@PathVariable("id") int id) {
-        return mapper.map(service.findById(id), CategoryDTO.class);
+        return mapper.map(service.findById(id), CategoryDTO.class)
+                .add(linkTo(methodOn(CategoryController.class).findById(id)).withSelfRel());
     }
+
 
     @PostMapping
     public void create(@RequestBody CategoryCreateForm form) {
