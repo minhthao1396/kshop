@@ -7,6 +7,8 @@ import com.vti.form.ProductUpdateForm;
 import com.vti.repository.IProductRepository;
 import com.vti.specification.ProductSpecification;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +34,15 @@ public class ProductService implements IProductService {
 
     @Override
     public void create(ProductCreateForm form) {
+        TypeMap<ProductCreateForm, Product> typeMap = mapper.getTypeMap(ProductCreateForm.class, Product.class);
+        if (typeMap == null) {
+            mapper.addMappings(new PropertyMap<ProductCreateForm, Product>() {
+                @Override
+                protected void configure() {
+                    skip(destination.getId());
+                }
+            });
+        }
         repository.save(mapper.map(form, Product.class));
     }
 
