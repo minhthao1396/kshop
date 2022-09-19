@@ -1,0 +1,12 @@
+#products-table {
+    cursor: pointer;
+}
+
+tbody tr {
+    transition: 0.25s;
+}
+
+.selected {
+    color: white;
+    background-color: #7bed9f;
+}
