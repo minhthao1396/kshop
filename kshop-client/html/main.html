@@ -87,11 +87,11 @@
                                 <i class="fa-solid fa-arrows-rotate"></i>
                                 Refresh
                             </button>
-                            <button id="btn-add" type="button" class="btn btn-success ms-2">
+                            <button id="btn-add" type="button" class="btn btn-success ms-2" data-bs-toggle="modal" data-bs-target="#createModal">
                                 <i class="fa-solid fa-plus"></i>
                                 Add
                             </button>
-                            <button id="btn-edit" type="button" class="btn btn-warning ms-2" disabled>
+                            <button id="btn-edit" type="button" class="btn btn-warning ms-2" data-bs-toggle="modal" data-bs-target="#updateModal" disabled>
                                 <i class="fa-solid fa-pen-to-square"></i>
                                 Edit
                             </button>
@@ -143,6 +143,122 @@
                             </ul>
                         </nav>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Create modal -->
+    <div class="modal fade" id="createModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Create new product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="create-name" class="form-label">Name</label>
+                            <input type="text" class="form-control" name="create-name" id="create-name" aria-describedby="create-name-help" placeholder="VD: Iphone 14 Pro Max">
+                            <small id="create-name-help" class="form-text text-muted">Max length is 50 chracters</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="create-price" class="form-label">Price</label>
+                            <input type="number" class="form-control" name="create-price" id="create-price" aria-describedby="create-price-help" placeholder="VD: 5000000">
+                            <small id="create-price-help" class="form-text text-muted">Help text</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="create-sale-price" class="form-label">Sale Price</label>
+                            <input type="number" class="form-control" name="create-sale-price" id="create-sale-price" aria-describedby="create-sale-price-help" placeholder="VD: 5000000">
+                            <small id="create-sale-price-help" class="form-text text-muted">Help text</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="create-thumbnail-url" class="form-label">Thumbnail Url</label>
+                            <input type="text" class="form-control" name="create-thumbnail-url" id="create-thumbnail-url" aria-describedby="create-thumbnail-url" placeholder="VD: https://...">
+                            <small id="create-thumbnail-url" class="form-text text-muted">Help text</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="create-description" class="form-label">Description</label>
+                            <textarea class="form-control" name="create-description" id="create-description" rows="5"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="create-category" class="form-label">Category</label>
+                            <select class="form-select" name="create-category" id="create-category">
+                                <option value="1">Mobile</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="create-ram" class="form-label">Ram</label>
+                            <select class="form-control" name="create-ram" id="create-ram">
+                                <option value="_8GB">8GB</option>
+                                <option value="_12GB">12GB</option>
+                                <option value="_16GB">16GB</option>
+                            </select>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button id="btn-create" type="button" class="btn btn-primary">Create</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update modal -->
+    <div class="modal fade" id="updateModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="update-id" class="form-label">Name</label>
+                            <input disabled type="text" class="form-control" name="update-id" id="update-id" aria-describedby="update-id-help" placeholder="VD: 1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="update-name" class="form-label">Name</label>
+                            <input type="text" class="form-control" name="update-name" id="update-name" aria-describedby="update-name-help" placeholder="VD: Iphone 14 Pro Max">
+                            <small id="update-name-help" class="form-text text-muted">Max length is 50 chracters</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="update-price" class="form-label">Price</label>
+                            <input type="number" class="form-control" name="update-price" id="update-price" aria-describedby="update-price-help" placeholder="VD: 5000000">
+                            <small id="update-price-help" class="form-text text-muted">Help text</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="update-sale-price" class="form-label">Sale Price</label>
+                            <input type="number" class="form-control" name="update-sale-price" id="update-sale-price" aria-describedby="update-sale-price-help" placeholder="VD: 5000000">
+                            <small id="update-sale-price-help" class="form-text text-muted">Help text</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="update-thumbnail-url" class="form-label">Thumbnail Url</label>
+                            <input type="text" class="form-control" name="update-thumbnail-url" id="update-thumbnail-url" aria-describedby="update-thumbnail-url" placeholder="VD: https://...">
+                            <small id="update-thumbnail-url" class="form-text text-muted">Help text</small>
+                        </div>
+                        <div class="mb-3">
+                            <label for="update-description" class="form-label">Description</label>
+                            <textarea class="form-control" name="update-description" id="update-description" rows="5"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="update-category" class="form-label">Category</label>
+                            <select class="form-select" name="update-category" id="update-category">
+                                <option value="1">Mobile</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="update-ram" class="form-label">Ram</label>
+                            <select class="form-control" name="update-ram" id="update-ram">
+                                <option value="_8GB">8GB</option>
+                                <option value="_12GB">12GB</option>
+                                <option value="_16GB">16GB</option>
+                            </select>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                <button id="btn-update" type="button" class="btn btn-primary">Update</button>
                 </div>
             </div>
         </div>

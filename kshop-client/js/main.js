@@ -60,6 +60,60 @@ function addListeners() {
         // VD: name,asc
         loadAllProducts(`${$(this).attr('key')},${type}`);
     });
+
+    $('#btn-create').on('click', function(event) {
+        $.ajax({
+            method: 'POST',
+            url: 'http://localhost:8080/api/v1/products',
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+                name: $('#create-name').val(),
+                price: $('#create-price').val(),
+                salePrice: $('#create-sale-price').val(),
+                thumbnailUrl: $('#create-thumbnail-url').val(),
+                description: $('#create-description').val(),
+                ram: $('#create-ram').val(),
+                categoryId: $('#create-category').val(),
+            }),
+            success: function() {
+                debugger
+                loadAllProducts();
+                
+            }
+        });
+    });
+
+    $('#btn-edit').on('click', function(event) {
+        const row = $('.selected');
+        $('#update-id').val(row.find('.id').text());
+        $('#update-name').val(row.find('.name').text());
+        $('#update-price').val(row.find('.price').attr('value'));
+        $('#update-sale-price').val(row.find('.salePrice').attr('value'));
+        $('#update-thumbnail-url').val(row.find('.thumbnailUrl').attr('value'));
+        $('#update-description').val(row.find('.description').text());
+        $('#update-ram').val(row.find('.ram').text());
+        $('#update-category').val(row.find('.categoryId').attr('value'));
+    });
+
+    $('#btn-update').on('click', function(event) {
+        $.ajax({
+            method: 'PUT',
+            url: 'http://localhost:8080/api/v1/products/' + $('#update-id').val(),
+            contentType: 'application/json; charset=utf-8',
+            data: JSON.stringify({
+                name: $('#update-name').val(),
+                price: $('#update-price').val(),
+                salePrice: $('#update-sale-price').val(),
+                thumbnailUrl: $('#update-thumbnail-url').val(),
+                description: $('#update-description').val(),
+                ram: $('#update-ram').val(),
+                categoryId: $('#update-category').val(),
+            }),
+            success: function() {
+                loadAllProducts();
+            }
+        });
+    });
 }
 
 function loadAllCategories() {
@@ -137,18 +191,18 @@ function showAllProducts(products) {
     for (const product of products) {
         tbody.append(`
             <tr>
-                <th scope="row">${product.id}</th>
-                <td>${product.name}</td>
-                <td>${product.ram}</td>
-                <td>${product.price.toLocaleString('vi-VN')}₫</td>
-                <td>${product.salePrice.toLocaleString('vi-VN')}₫</td>
-                <td>${product.description}</td>
-                <td>
+                <th class='id' scope="row">${product.id}</th>
+                <td class='name'>${product.name}</td>
+                <td class='ram'>${product.ram}</td>
+                <td class='price' value='${product.price}'>${product.price.toLocaleString('vi-VN')}₫</td>
+                <td class='salePrice' value='${product.salePrice}'>${product.salePrice.toLocaleString('vi-VN')}₫</td>
+                <td class='description'>${product.description}</td>
+                <td class='thumbnailUrl' value='${product.thumbnailUrl}'>
                     <img src="${product.thumbnailUrl}" width="80">
                 </td>
-                <td>${product.createdDate}</td>
-                <td>${product.updatedDate}</td>
-                <td>${product.category.name}</td>
+                <td class='createdDate'>${product.createdDate}</td>
+                <td class='updatedDate'>${product.updatedDate}</td>
+                <td class='categoryId' value='${product.category.id}'>${product.category.name}</td>
             </tr>
         `);
     }
