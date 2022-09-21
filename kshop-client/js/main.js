@@ -46,6 +46,20 @@ function addListeners() {
     $('#btn-search').on('click', function(event) {
         loadAllProducts();
     });
+
+    $('#thead').on('click', 'th', function(event) {
+        $(this).siblings().find('i').removeClass('fa-sort-up fa-sort-down').addClass('fa-sort');
+        const i = $(this).find('i');
+        if (i.hasClass('fa-sort')) {
+            i.removeClass('fa-sort').addClass('fa-sort-up');
+        } else {
+            // i chỉ có thể là up hoặc down
+            i.toggleClass('fa-sort-up fa-sort-down');
+        }
+        let type = i.hasClass('fa-sort-up') ? 'asc' : 'desc';
+        // VD: name,asc
+        loadAllProducts(`${$(this).attr('key')},${type}`);
+    });
 }
 
 function loadAllCategories() {
@@ -58,7 +72,7 @@ function loadAllCategories() {
     });
 }
 
-function loadAllProducts() {
+function loadAllProducts(sort = null) {
     debugger
     const searchParams = new URLSearchParams();
     let ram = $('#ram').val();
@@ -69,6 +83,7 @@ function loadAllProducts() {
     const params = {
         page: $('#page-number').val(),
         size: $('#page-size').val(),
+        sort: sort,
         search: $('#search').val(),
         ram: ram,
         categoryId: categoryId,

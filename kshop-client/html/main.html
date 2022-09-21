@@ -101,28 +101,26 @@
                             </button>
                         </div>
                     </div>
-                    <div class="position-relative">
-                        <div class="row my-4 d-flex justify-content-center" style="max-height: 500px; overflow-y: scroll;">
-                            <table id="products-table" class="table">
-                                <thead>
-                                    <tr class="text-primary sticky-top bg-light">
-                                        <th scope="col">#</th>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Ram</th>
-                                        <th scope="col">Price</th>
-                                        <th scope="col">Sale Price</th>
-                                        <th scope="col">Description</th>
-                                        <th scope="col">Thumbnail</th>
-                                        <th scope="col">Created Date</th>
-                                        <th scope="col">Updated Date</th>
-                                        <th scope="col">Category</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="products-tbody"></tbody>
-                            </table>
-                            <div id="loading" class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
+                    <div class="row my-4 d-flex justify-content-center" style="max-height: 500px; overflow-y: scroll;">
+                        <table id="products-table" class="table">
+                            <thead id="thead">
+                                <tr class="text-primary sticky-top bg-light">
+                                    <th scope="col" key="id"># <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col" key="name">Name <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col" key="ram">Ram <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col" key="price">Price <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col" key="salePrice">Sale Price <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col" key="description">Description <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col" key="thumbnailUrl">Thumbnail <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col" key="createdDate">Created Date <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col" key="updatedDate">Updated Date <i class="fa-solid fa-sort"></i></th>
+                                    <th scope="col" key="categoryName">Category <i class="fa-solid fa-sort"></i></th>
+                                </tr>
+                            </thead>
+                            <tbody id="products-tbody"></tbody>
+                        </table>
+                        <div id="loading" class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
                         </div>
                     </div>
                     <div class="row">
