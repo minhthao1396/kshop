@@ -33,13 +33,17 @@ function addListeners() {
     // Khi người dùng nhấn enter vào ô input page number
     $('#page-number').on('keypress', function (event) {
         // 13 là key code của phím enter
-        if(event.which === 13) {
+        if (event.which === 13) {
             loadAllProducts();
         }
     });
 
     // Khi người dùng select page size
     $('#page-size').on('change', function (event) {
+        loadAllProducts();
+    });
+
+    $('#btn-search').on('click', function(event) {
         loadAllProducts();
     });
 }
@@ -55,12 +59,35 @@ function loadAllCategories() {
 }
 
 function loadAllProducts() {
-    const page = $('#page-number').val();
-    const size = $('#page-size').val();
+    debugger
+    const searchParams = new URLSearchParams();
+    let ram = $('#ram').val();
+    if (ram == -1) ram = null;
+    let categoryId = $('#categories').val();
+    if (categoryId == -1) categoryId = null;
+
+    const params = {
+        page: $('#page-number').val(),
+        size: $('#page-size').val(),
+        search: $('#search').val(),
+        ram: ram,
+        categoryId: categoryId,
+        minYear: $('#min-year').val(),
+        maxYear: $('#max-year').val(),
+        minCreatedDate: $('#min-created-date').val(),
+        maxCreatedDate: $('#max-created-date').val(),
+        minSalePrice: $('#min-sale-price').val(),
+        maxSalePrice: $('#max-sale-price').val(),
+    }
+    for (const key in params) {
+        if (params[key]) {
+            searchParams.set(key, params[key]);
+        }
+    }
 
     $.ajax({
         method: 'GET',
-        url: `http://localhost:8080/api/v1/products?page=${page}&size=${size}`,
+        url: 'http://localhost:8080/api/v1/products?' + searchParams,
         beforeSend: function() {
             showLoading();
         },
