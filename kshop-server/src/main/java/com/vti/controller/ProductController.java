@@ -6,18 +6,22 @@ import com.vti.form.ProductCreateForm;
 import com.vti.form.ProductFilterForm;
 import com.vti.form.ProductUpdateForm;
 import com.vti.service.IProductService;
+import com.vti.validation.ProductExistsById;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/products")
+@Validated
 public class ProductController {
     @Autowired
     private IProductService service;
@@ -37,23 +41,23 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ProductDTO findById(@PathVariable("id") int id) {
+    public ProductDTO findById(@PathVariable("id") @ProductExistsById int id) {
         return mapper.map(service.findById(id), ProductDTO.class);
     }
 
     @PostMapping
-    public void create(@RequestBody ProductCreateForm form) {
+    public void create(@RequestBody @Valid ProductCreateForm form) {
         service.create(form);
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable("id") int id, @RequestBody ProductUpdateForm form) {
+    public void update(@PathVariable("id") @ProductExistsById int id, @RequestBody @Valid ProductUpdateForm form) {
         form.setId(id);
         service.update(form);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable("id") int id) {
+    public void deleteById(@PathVariable("id") @ProductExistsById int id) {
         service.deleteById(id);
     }
 }

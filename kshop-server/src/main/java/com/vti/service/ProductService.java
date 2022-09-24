@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService implements IProductService {
     @Autowired
@@ -54,5 +56,10 @@ public class ProductService implements IProductService {
     @Override
     public void deleteById(int id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public void deleteAll(List<Integer> ids) {
+        repository.deleteAllById(ids);
     }
 }
