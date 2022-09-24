@@ -1,39 +1,29 @@
-const END_POINT = 'http://localhost:8080/api/v1/products';
+let sort = null;
 
-$(function() {
+$(function () {
     addListeners();
     loadAllCategories();
     loadAllProducts();
 });
 
 function addListeners() {
-    $('#products-tbody').on('click', 'tr', function(event) {
+    $('#products-tbody').on('click', 'tr', function (event) {
         if (event.ctrlKey) {
             $(this).toggleClass('selected');
         } else {
             $(this).addClass('selected').siblings().removeClass('selected');
         }
-        const selectedRows = $('.selected').length;
-        if (selectedRows == 0) {
-            $('#btn-edit').attr('disabled', 'disabled');
-            $('#btn-delete').attr('disabled', 'disabled');
-        } else if (selectedRows == 1) {
-            $('#btn-edit').removeAttr('disabled');
-            $('#btn-delete').removeAttr('disabled');
-        } else {
-            $('#btn-edit').attr('disabled', 'disabled');
-            $('#btn-delete').removeAttr('disabled');
-        }
+        updateStatus();
     });
 
-    $('#btn-refresh').on('click', function(event) {
+    $('#btn-refresh').on('click', function (event) {
         loadAllProducts();
     });
 
     // Khi người dùng nhấn enter vào ô input page number
     $('#page-number').on('keypress', function (event) {
         // 13 là key code của phím enter
-        if (event.which === 13) {
+        if (event.which == 13) {
             loadAllProducts();
         }
     });
@@ -43,96 +33,154 @@ function addListeners() {
         loadAllProducts();
     });
 
-    $('#btn-search').on('click', function(event) {
+    $('#btn-search').on('click', function (event) {
         loadAllProducts();
     });
 
-    $('#thead').on('click', 'th', function(event) {
+    $('#products-thead').on('click', 'th', function (event) {
         $(this).siblings().find('i').removeClass('fa-sort-up fa-sort-down').addClass('fa-sort');
+
         const i = $(this).find('i');
         if (i.hasClass('fa-sort')) {
             i.removeClass('fa-sort').addClass('fa-sort-up');
         } else {
-            // i chỉ có thể là up hoặc down
             i.toggleClass('fa-sort-up fa-sort-down');
         }
         let type = i.hasClass('fa-sort-up') ? 'asc' : 'desc';
-        // VD: name,asc
-        loadAllProducts(`${$(this).attr('key')},${type}`);
+        sort = `${$(this).attr('key')},${type}`
+        loadAllProducts();
     });
 
-    $('#btn-create').on('click', function(event) {
+    $('#btn-add').on('click', function (event) {
+        $('#modal-title').val('Thêm sản phẩm');
+        $('#form-id-container').hide();
+        $('#btn-update').hide();
+        $('#btn-create').show();
+    });
+
+    $('#btn-create').on('click', function (event) {
         $.ajax({
             method: 'POST',
             url: 'http://localhost:8080/api/v1/products',
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify({
-                name: $('#create-name').val(),
-                price: $('#create-price').val(),
-                salePrice: $('#create-sale-price').val(),
-                thumbnailUrl: $('#create-thumbnail-url').val(),
-                description: $('#create-description').val(),
-                ram: $('#create-ram').val(),
-                categoryId: $('#create-category').val(),
+                name: $('#form-name').val(),
+                price: $('#form-price').val(),
+                salePrice: $('#form-sale-price').val(),
+                thumbnailUrl: $('#form-thumbnail-url').val(),
+                description: $('#form-description').val(),
+                ram: $('#form-ram').val(),
+                categoryId: $('#form-category').val(),
             }),
-            success: function() {
-                debugger
+            success: function () {
                 loadAllProducts();
-                
+                $('#products-form').trigger("reset");
             }
         });
     });
 
-    $('#btn-edit').on('click', function(event) {
+    $('#btn-edit').on('click', function (event) {
+        $('#modal-title').val('Cập nhật sản phẩm');
+        $('#form-id-container').show();
+        $('#btn-update').show();
+        $('#btn-create').hide();
+
         const row = $('.selected');
-        $('#update-id').val(row.find('.id').text());
-        $('#update-name').val(row.find('.name').text());
-        $('#update-price').val(row.find('.price').attr('value'));
-        $('#update-sale-price').val(row.find('.salePrice').attr('value'));
-        $('#update-thumbnail-url').val(row.find('.thumbnailUrl').attr('value'));
-        $('#update-description').val(row.find('.description').text());
-        $('#update-ram').val(row.find('.ram').text());
-        $('#update-category').val(row.find('.categoryId').attr('value'));
+        $('#form-id').val(row.find('.id').attr('value'));
+        $('#form-name').val(row.find('.name').attr('value'));
+        $('#form-price').val(row.find('.price').attr('value'));
+        $('#form-sale-price').val(row.find('.salePrice').attr('value'));
+        $('#form-thumbnail-url').val(row.find('.thumbnailUrl').attr('value'));
+        $('#form-description').val(row.find('.description').text());
+        $('#form-ram').val(row.find('.ram').attr('value'));
+        $('#form-category').val(row.find('.categoryId').attr('value'));
     });
 
-    $('#btn-update').on('click', function(event) {
+    $('#btn-update').on('click', function (event) {
+        const id = $('#form-id').val();
+
         $.ajax({
             method: 'PUT',
-            url: 'http://localhost:8080/api/v1/products/' + $('#update-id').val(),
+            url: 'http://localhost:8080/api/v1/products/' + id,
             contentType: 'application/json; charset=utf-8',
             data: JSON.stringify({
-                name: $('#update-name').val(),
-                price: $('#update-price').val(),
-                salePrice: $('#update-sale-price').val(),
-                thumbnailUrl: $('#update-thumbnail-url').val(),
-                description: $('#update-description').val(),
-                ram: $('#update-ram').val(),
-                categoryId: $('#update-category').val(),
+                id: id,
+                name: $('#form-name').val(),
+                price: $('#form-price').val(),
+                salePrice: $('#form-sale-price').val(),
+                thumbnailUrl: $('#form-thumbnail-url').val(),
+                description: $('#form-description').val(),
+                ram: $('#form-ram').val(),
+                categoryId: $('#form-category').val(),
             }),
-            success: function() {
+            success: function () {
                 loadAllProducts();
+                $('#products-form').trigger("reset");
+                bootstrap.Modal.getOrCreateInstance($('#modal')).hide();
             }
         });
     });
+
+    $('#btn-delete').on('click', function(event) {
+        $('#delete-modal .modal-body').text(
+            `Bạn chắc chắn muốn xóa ${$('.selected').length} sản phẩm?`
+        );
+    });
+
+    $('#btn-remove').on('click', function (event) {
+        const cells = $('.selected').find('.id');
+
+        for (const cell of cells) {
+            $.ajax({
+                method: 'DELETE',
+                url: 'http://localhost:8080/api/v1/products/' + cell.innerText,
+                beforeSend: function () {
+                    showLoading();
+                },
+                success: function (result) {
+                    loadAllProducts();
+                },
+                complete: function () {
+                    hideLoading();
+                }
+            });
+        }
+
+        bootstrap.Modal.getOrCreateInstance($('#delete-modal')).hide();
+    });
+}
+
+function updateStatus() {
+    const length = $('.selected').length;
+    if (length == 0) {
+        $('#btn-edit').attr('disabled', 'disabled');
+        $('#btn-delete').attr('disabled', 'disabled');
+    } else if (length == 1) {
+        $('#btn-edit').removeAttr('disabled');
+        $('#btn-delete').removeAttr('disabled');
+    } else {
+        $('#btn-edit').attr('disabled', 'disabled');
+        $('#btn-delete').removeAttr('disabled');
+    }
 }
 
 function loadAllCategories() {
     $.ajax({
         method: 'GET',
         url: 'http://localhost:8080/api/v1/categories',
-        success: function(result) {
+        success: function (result) {
             showAllCategories(result.content);
         }
     });
 }
 
-function loadAllProducts(sort = null) {
-    debugger
+function loadAllProducts() {
     const searchParams = new URLSearchParams();
+
     let ram = $('#ram').val();
-    if (ram == -1) ram = null;
+    if (!ram) ram = null;
     let categoryId = $('#categories').val();
-    if (categoryId == -1) categoryId = null;
+    if (!categoryId) categoryId = null;
 
     const params = {
         page: $('#page-number').val(),
@@ -157,25 +205,29 @@ function loadAllProducts(sort = null) {
     $.ajax({
         method: 'GET',
         url: 'http://localhost:8080/api/v1/products?' + searchParams,
-        beforeSend: function() {
+        beforeSend: function () {
             showLoading();
         },
-        success: function(result) {
+        success: function (result) {
             showPageInfo(result);
             showAllProducts(result.content);
+            updateStatus();
         },
-        complete: function() {
+        complete: function () {
             hideLoading();
         }
     });
 }
 
 function showAllCategories(categories) {
-    const select = $('#categories');
+    const filterSelect = $('#categories');
+    const formSelect = $('#form-category');
     for (const category of categories) {
-        select.append(`
+        const option = `
             <option value="${category.id}">${category.name}</option>
-        `);
+        `;
+        filterSelect.append(option);
+        formSelect.append(option);
     }
 }
 
@@ -183,6 +235,16 @@ function showPageInfo(result) {
     const start = result.pageable.offset;
     $('#page-info').text(`Showing ${start + 1} to ${start + result.numberOfElements} of ${result.totalElements} rows.`);
     $('#page-number').attr('max', result.totalPages);
+    if (result.last) {
+        $('#next').addClass('disabled');
+    } else {
+        $('#next').removeClass('disabled');
+    }
+    if (result.first) {
+        $('#previous').addClass('disabled');
+    } else {
+        $('#previous').removeClass('disabled');
+    }
 }
 
 function showAllProducts(products) {
@@ -191,9 +253,9 @@ function showAllProducts(products) {
     for (const product of products) {
         tbody.append(`
             <tr>
-                <th class='id' scope="row">${product.id}</th>
-                <td class='name'>${product.name}</td>
-                <td class='ram'>${product.ram}</td>
+                <th class='id' value='${product.id}' scope="row">${product.id}</th>
+                <td class='name' value='${product.name}'>${product.name}</td>
+                <td class='ram' value='${product.ram}'>${product.ram}</td>
                 <td class='price' value='${product.price}'>${product.price.toLocaleString('vi-VN')}₫</td>
                 <td class='salePrice' value='${product.salePrice}'>${product.salePrice.toLocaleString('vi-VN')}₫</td>
                 <td class='description'>${product.description}</td>
@@ -214,4 +276,10 @@ function showLoading() {
 
 function hideLoading() {
     $('#loading').hide();
+}
+
+function changePageNumber(value) {
+    const page = $('#page-number');
+    page.val(+page.val() + value);
+    loadAllProducts();
 }

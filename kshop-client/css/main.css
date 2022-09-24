@@ -10,3 +10,7 @@ tbody tr {
     color: white;
     background-color: #7bed9f;
 }
+
+th {
+    white-space: nowrap;
+}

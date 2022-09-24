@@ -6,14 +6,13 @@
 
 <body>
     <nav class="navbar navbar-expand-lg bg-light fixed-top">
-        <div class="container-fluid">
-            <a class="navbar-brand text-primary fs-1 fw-bold" href="#">KShop</a>
+        <div class="container-md">
+            <a class="navbar-brand text-warning fs-1 fw-bold" href="#"><i class="fa-solid fa-shield-cat"></i> KShop</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
+                data-bs-target="#navbar-supported-content" aria-controls="navbar-supported-content" aria-expanded="false">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbar-supported-content">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">Trang chủ</a>
@@ -21,7 +20,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                             aria-expanded="false">
-                            Sản phẩm
+                            Danh mục sản phẩm
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="#">Điện thoại</a></li>
@@ -40,8 +39,12 @@
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <input id="search" class="form-control me-2" type="search"
+                                placeholder="Tìm kiếm sản phẩm" aria-label="Search">
+                    <button class="col-auto btn btn-outline-success" type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        Tìm kiếm
+                    </button>
                 </form>
             </div>
         </div>
