@@ -1,4 +1,4 @@
-package com.vti.configuration;
+package com.vti.configuration.swagger2;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableSwagger2
-public class SwaggerConfiguration {
+public class Swagger2Configuration {
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -26,12 +26,14 @@ public class SwaggerConfiguration {
     }
 
     private ApiInfo apiInfo() {
-        return new ApiInfo("Application API", // title
-                "This is API description for Application", // description
-                "1.0", // version
-                "Terms of service URL", // termsOfServiceUrl
-                new Contact("VTI Academy", "https://www.facebook.com/VTIAcademy/", "info@vtiacademy.edu.vn"), // contact
-                "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0.html", // license
-                Collections.emptyList()); // vendors
+        return new ApiInfo(
+                "Application API",
+                "This is API description for Application",
+                "1.0",
+                "Terms of service URL",
+                new Contact("VTI Academy", "https://www.facebook.com/VTIAcademy/", "info@vtiacademy.edu.vn"),
+                "Apache 2.0", "http://www.apache.org/licenses/LICENSE-2.0.html",
+                Collections.emptyList()
+        );
     }
 }

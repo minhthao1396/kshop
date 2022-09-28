@@ -1,4 +1,4 @@
-package com.vti.configuration;
+package com.vti.configuration.i18n;
 
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;

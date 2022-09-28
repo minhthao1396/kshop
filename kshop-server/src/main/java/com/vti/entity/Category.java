@@ -32,6 +32,6 @@ public class Category {
     @UpdateTimestamp
     private LocalDate updatedDate;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
     private List<Product> products;
 }

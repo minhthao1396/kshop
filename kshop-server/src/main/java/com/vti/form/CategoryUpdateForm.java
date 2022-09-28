@@ -16,7 +16,7 @@ import javax.validation.constraints.NotNull;
 public class CategoryUpdateForm {
     @NotNull(message = "{CategoryForm.id.NotNull}")
     @CategoryExistsById
-    private Integer id;
+    private int id;
 
     @NotBlank(message = "{CategoryForm.name.NotBlank}")
     @Length(max = 50, message = "{CategoryForm.name.Length}")

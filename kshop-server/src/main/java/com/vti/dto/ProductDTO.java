@@ -1,5 +1,6 @@
 package com.vti.dto;
 
+import com.vti.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,7 +18,7 @@ public class ProductDTO extends RepresentationModel<ProductDTO> {
     private double salePrice;
     private String thumbnailUrl;
     private String description;
-    private String ram;
+    private Product.Ram ram;
     private LocalDate createdDate;
     private LocalDate updatedDate;
     private CategoryDTO category;
