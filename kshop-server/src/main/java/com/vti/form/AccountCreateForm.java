@@ -32,5 +32,5 @@ public class AccountCreateForm {
     private String lastName;
 
     @NotNull(message = "{AccountForm.role.NotNull}")
-    private Account.Role role;
+    private Account.Role role = Account.Role.EMPLOYEE;
 }

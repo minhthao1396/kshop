@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
 public class AccountUpdateForm {
     @NotNull(message = "{AccountForm.id.NotNull}")
     @AccountExistsById
-    private int id;
+    private Integer id;
 
     @NotBlank(message = "{AccountForm.username.NotBlank}")
     @Length(max = 50, message = "{AccountForm.username.Length}")

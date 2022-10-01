@@ -19,7 +19,7 @@ public class Category {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "name", length = 50, unique = true, nullable = false)
     private String name;
@@ -32,6 +32,6 @@ public class Category {
     @UpdateTimestamp
     private LocalDate updatedDate;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Product> products;
 }

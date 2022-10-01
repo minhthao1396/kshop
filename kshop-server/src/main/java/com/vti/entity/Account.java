@@ -3,6 +3,7 @@ package com.vti.entity;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -19,7 +20,7 @@ public class Account {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "username", length = 50, unique = true, nullable = false, updatable = false)
     private String username;
@@ -36,9 +37,10 @@ public class Account {
     @Formula("concat(first_name, ' ', last_name)")
     private String fullName;
 
-    @Column(name = "role")
+    @Column(name = "role", length = 8, nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    @ColumnDefault("'EMPLOYEE'")
+    private Role role = Role.EMPLOYEE;
 
     @Column(name = "created_date", nullable = false, updatable = false)
     @CreationTimestamp

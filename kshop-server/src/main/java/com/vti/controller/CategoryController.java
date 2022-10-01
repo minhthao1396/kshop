@@ -22,9 +22,9 @@ import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
+@Validated
 @RestController
 @RequestMapping("/api/v1/categories")
-@Validated
 public class CategoryController {
     @Autowired
     private ICategoryService service;

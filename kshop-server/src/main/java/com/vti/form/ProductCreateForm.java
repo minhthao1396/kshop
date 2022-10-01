@@ -23,11 +23,11 @@ public class ProductCreateForm {
 
     @NotNull(message = "{ProductForm.price.NotNull}")
     @PositiveOrZero(message = "{ProductForm.price.PositiveOrZero}")
-    private double price;
+    private Double price;
 
     @NotNull(message = "{ProductForm.salePrice.NotNull}")
     @PositiveOrZero(message = "{ProductForm.salePrice.PositiveOrZero}")
-    private double salePrice;
+    private Double salePrice;
 
     @NotBlank(message = "{ProductForm.thumbnailUrl.NotBlank}")
     @Length(max = 255, message = "{ProductForm.thumbnailUrl.Length}")
@@ -42,5 +42,5 @@ public class ProductCreateForm {
 
     @NotNull(message = "{CategoryForm.id.NotNull}")
     @CategoryExistsById
-    private int categoryId;
+    private Integer categoryId;
 }

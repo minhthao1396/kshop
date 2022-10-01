@@ -19,7 +19,7 @@ import javax.validation.constraints.PositiveOrZero;
 public class ProductUpdateForm {
     @NotNull(message = "{ProductForm.id.NotNull}")
     @ProductExistsById
-    private int id;
+    private Integer id;
 
     @NotBlank(message = "{ProductForm.name.NotBlank}")
     @Length(max = 50, message = "{ProductForm.name.Length}")
@@ -28,11 +28,11 @@ public class ProductUpdateForm {
 
     @NotNull(message = "{ProductForm.price.NotNull}")
     @PositiveOrZero(message = "{ProductForm.price.PositiveOrZero}")
-    private double price;
+    private Double price;
 
     @NotNull(message = "{ProductForm.salePrice.NotNull}")
     @PositiveOrZero(message = "{ProductForm.salePrice.PositiveOrZero}")
-    private double salePrice;
+    private Double salePrice;
 
     @NotBlank(message = "{ProductForm.thumbnailUrl.NotBlank}")
     @Length(max = 255, message = "{ProductForm.thumbnailUrl.Length}")
@@ -47,5 +47,5 @@ public class ProductUpdateForm {
 
     @NotNull(message = "{CategoryForm.id.NotNull}")
     @CategoryExistsById
-    private int categoryId;
+    private Integer categoryId;
 }

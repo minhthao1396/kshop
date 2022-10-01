@@ -18,16 +18,16 @@ public class Product {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "name", length = 50, unique = true, nullable = false)
     private String name;
 
     @Column(name = "price", nullable = false)
-    private double price;
+    private Double price;
 
     @Column(name = "sale_price", nullable = false)
-    private double salePrice;
+    private Double salePrice;
 
     @Column(name = "thumbnail_url", nullable = false)
     private String thumbnailUrl;
@@ -35,7 +35,7 @@ public class Product {
     @Column(name = "description", length = 1023, nullable = false)
     private String description;
 
-    @Column(name = "ram", length = 50, nullable = false)
+    @Column(name = "ram", length = 5, nullable = false)
     @Enumerated(value = EnumType.STRING)
     private Ram ram;
 

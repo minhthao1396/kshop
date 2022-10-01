@@ -6,10 +6,13 @@ import com.vti.form.AccountCreateForm;
 import com.vti.service.IAccountService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 
+@Validated
 @RestController
 @RequestMapping(value = "api/v1/auth")
 public class AuthController {
@@ -28,7 +31,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public void register(@RequestBody AccountCreateForm form) {
+    public void register(@RequestBody @Valid AccountCreateForm form) {
         service.create(form);
     }
 }
