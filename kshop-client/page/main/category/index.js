@@ -21,6 +21,12 @@ $(function () {
         });
     });
 
+    if (storage.getItem('key_role') != 'ADMIN') {
+        $('#btn-add').hide();
+        $('#btn-edit').hide();
+        $('#btn-delete').hide();
+    }
+
     addListeners();
     loadCategories();
 });
@@ -153,12 +159,13 @@ function showCategories(caetgories) {
     const tbody = $('#category-tbody');
     tbody.empty();
     for (const category of caetgories) {
+        const updatedAt = new Date(category.updatedAt);
         tbody.append(`
             <tr>
                 <th class='id' value='${category.id}' scope="row">${category.id}</th>
                 <td class='name' value='${category.name}'>${category.name}</td>
                 <td class='createdDate'>${category.createdDate}</td>
-                <td class='updatedDate'>${category.updatedDate}</td>
+                <td class='updatedAt'>${updatedAt.toLocaleDateString()} ${updatedAt.toLocaleTimeString()}</td>
             </tr>
         `);
     }

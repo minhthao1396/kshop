@@ -2,17 +2,17 @@ var KEY_ENTER = 13;
 var sort = null;
 
 $(function () {
-    $('#form-modal-container').load('/page/main/product/form-modal.html');
+    $('#form-modal-container').load('/page/main/account/form-modal.html');
     $('#delete-modal-container').load('/common/modal/delete-modal.html', null, function () {
         $('#delete-modal-btn-remove').on('click', function (event) {
             const ids = $('.selected').find('.id');
             for (const id of ids) {
                 $.ajax({
                     method: 'DELETE',
-                    url: 'http://localhost:8080/api/v1/products/' + id.innerText,
+                    url: 'http://localhost:8080/api/v1/accounts/' + id.innerText,
                     beforeSend: () => showLoading(),
                     success: function (data) {
-                        loadProducts();
+                        loadAccounts();
                     },
                     complete: () => hideLoading()
                 });
@@ -21,31 +21,24 @@ $(function () {
         });
     });
 
-    if (storage.getItem('key_role') != 'ADMIN') {
-        $('#btn-add').hide();
-        $('#btn-edit').hide();
-        $('#btn-delete').hide();
-    }
-
     addListeners();
-    loadCategories();
-    loadProducts();
+    loadAccounts();
 });
 
 function addListeners() {
-    $('#btn-search, #btn-refresh').on('click', event => loadProducts());
+    $('#btn-search, #btn-refresh').on('click', event => loadAccounts());
 
     // Khi người dùng thay đổi page size
-    $('#page-size').on('change', event => loadProducts());
+    $('#page-size').on('change', event => loadAccounts());
 
     // Khi người dùng thay đổi page number và nhấn ENTER
     $('#page-number').on('keypress', event => {
         if (event.which == KEY_ENTER) {
-            loadProducts();
+            loadAccounts();
         }
     });
 
-    $('#product-tbody').on('click', 'tr', function (event) {
+    $('#account-tbody').on('click', 'tr', function (event) {
         if (event.ctrlKey) {
             $(this).toggleClass('selected');
         } else {
@@ -54,7 +47,7 @@ function addListeners() {
         updateStatus();
     });
 
-    $('#product-thead').on('click', 'th', function (event) {
+    $('#account-thead').on('click', 'th', function (event) {
         $(this).siblings().find('i').removeClass('fa-sort-up fa-sort-down').addClass('fa-sort');
 
         const i = $(this).find('i');
@@ -66,33 +59,30 @@ function addListeners() {
 
         let type = i.hasClass('fa-sort-up') ? 'asc' : 'desc';
         sort = `${$(this).attr('key')},${type}`
-        loadProducts();
+        loadAccounts();
     });
 
     $('#btn-add').on('click', event => {
-        $('#product-form').trigger('reset');
+        $('#account-form').trigger('reset');
         $('#form-id-container').hide();
         $('#form-modal-btn-update').hide();
         $('#form-modal-btn-create').show();
-        $('#form-modal-title').text('Thêm sản phẩm');
+        $('#form-modal-title').text('Thêm tài khoản');
     });
 
     $('#btn-edit').on('click', event => {
-        $('#product-form').trigger('reset');
+        $('#account-form').trigger('reset');
         $('#form-modal-btn-create').hide();
         $('#form-modal-btn-update').show();
         $('#form-id-container').show();
-        $('#form-modal-title').text('Cập nhật sản phẩm');
+        $('#form-modal-title').text('Cập nhật tài khoản');
 
         const row = $('.selected');
-        $('#form-id').val(row.find('.id').attr('value'));
-        $('#form-name').val(row.find('.name').attr('value'));
-        $('#form-price').val(row.find('.price').attr('value'));
-        $('#form-sale-price').val(row.find('.salePrice').attr('value'));
-        $('#form-thumbnail-url').val(row.find('.thumbnailUrl').attr('value'));
-        $('#form-description').val(row.find('.description').text());
-        $('#form-ram').val(row.find('.ram').attr('value'));
-        $('#form-category').val(row.find('.categoryId').attr('value'));
+        $('#form-id').val(row.find('.id').text());
+        $('#form-last-name').val(row.find('.lastName').text());
+        $('#form-first-name').val(row.find('.firstName').text());
+        $('#form-username').val(row.find('.username').text());
+        $('#form-role').val(row.find('.role').text());
     });
 
     $('#btn-delete').on('click', function (event) {
@@ -116,35 +106,20 @@ function updateStatus() {
     }
 }
 
-function loadCategories() {
-    $.ajax({
-        method: 'GET',
-        url: 'http://localhost:8080/api/v1/categories',
-        success: (data) => showCategories(data.content)
-    });
-}
-
-function loadProducts() {
+function loadAccounts() {
     const searchParams = new URLSearchParams();
 
-    let ram = $('#ram').val();
-    if (!ram) ram = null;
-    let categoryId = $('#category-filter').val();
-    if (!categoryId) categoryId = null;
+    let role = $('#role').val();
+    if (!role) role = null;
 
     const params = {
         page: $('#page-number').val(),
         size: $('#page-size').val(),
         sort: sort,
         search: $('#search').val(),
-        ram: ram,
-        categoryId: categoryId,
-        minYear: $('#min-year').val(),
-        maxYear: $('#max-year').val(),
-        minCreatedDate: $('#min-created-date').val(),
-        maxCreatedDate: $('#max-created-date').val(),
-        minSalePrice: $('#min-sale-price').val(),
-        maxSalePrice: $('#max-sale-price').val(),
+        role: role,
+        minId: $('#min-id').val(),
+        maxId: $('#max-id').val()
     }
     for (const key in params) {
         if (params[key]) {
@@ -154,26 +129,15 @@ function loadProducts() {
 
     $.ajax({
         method: 'GET',
-        url: 'http://localhost:8080/api/v1/products?' + searchParams,
+        url: 'http://localhost:8080/api/v1/accounts?' + searchParams,
         beforeSend: () => showLoading(),
         success: function (data) {
             showPageInfo(data);
-            showProducts(data.content);
+            showAccounts(data.content);
             updateStatus();
         },
         complete: () => hideLoading(),
     });
-}
-
-function showCategories(categories) {
-    const filter = $('#category-filter');
-    const form = $('#form-category');
-    let options = '';
-    for (const category of categories) {
-        options += `<option value="${category.id}">${category.name}</option>`;
-    }
-    filter.append(options);
-    form.append(options);
 }
 
 function showPageInfo(data) {
@@ -192,23 +156,20 @@ function showPageInfo(data) {
     }
 }
 
-function showProducts(products) {
-    const tbody = $('#product-tbody');
+function showAccounts(accounts) {
+    const tbody = $('#account-tbody');
     tbody.empty();
-    for (const product of products) {
-        const updatedAt = new Date(product.updatedAt);
+    for (const account of accounts) {
+        const updatedAt = new Date(account.updatedAt);
         tbody.append(`
             <tr>
-                <th class='id' value='${product.id}' scope="row">${product.id}</th>
-                <td class='name' value='${product.name}'>${product.name}</td>
-                <td class='ram' value='${product.ram}'>${product.ram}</td>
-                <td class='price' value='${product.price}'>${product.price.toLocaleString('vi-VN')}₫</td>
-                <td class='salePrice' value='${product.salePrice}'>${product.salePrice.toLocaleString('vi-VN')}₫</td>
-                <td class='description'>${product.description}</td>
-                <td class='thumbnailUrl' value='${product.thumbnailUrl}'><img src="${product.thumbnailUrl}" width="96"></td>
-                <td class='createdDate'>${product.createdDate}</td>
+                <th class='id' scope="row">${account.id}</th>
+                <td class='lastName''>${account.lastName}</td>
+                <td class='firstName'>${account.firstName}</td>
+                <td class='username'>${account.username}</td>
+                <td class='createdDate'>${account.createdDate}</td>
                 <td class='updatedAt'>${updatedAt.toLocaleDateString()} ${updatedAt.toLocaleTimeString()}</td>
-                <td class='categoryId' value='${product.category.id}'>${product.category.name}</td>
+                <td class='role'>${account.role}</td>
             </tr>
         `);
     }
@@ -225,5 +186,5 @@ function hideLoading() {
 function changePageNumberBy(value) {
     const page = $('#page-number');
     page.val(+page.val() + value);
-    loadProducts();
+    loadAccounts();
 }

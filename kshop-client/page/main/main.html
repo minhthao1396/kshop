@@ -15,6 +15,7 @@
             <button class="nav-link active" id="home-tab" data-bs-toggle="pill" type="button">Trang chủ</button>
             <button class="nav-link" id="product-tab" data-bs-toggle="pill" type="button">Sản phẩm</button>
             <button class="nav-link" id="category-tab" data-bs-toggle="pill" type="button">Danh mục sản phẩm</button>
+            <button class="nav-link" id="account-tab" data-bs-toggle="pill" type="button">Tài khoản</button>
         </div>
         <div class="tab-content mx-5" id="v-pills-tab-content">
             <div class="tab-pane fade show active" id="v-pills-content"></div>
@@ -40,6 +41,15 @@
             $('#category-tab').on('click', function (event) {
                 mainContent.load('/page/main/category/index.html');
             });
+
+            const role = storage.getItem('key_role');
+            if (role == 'ADMIN') {
+                $('#account-tab').on('click', function (event) {
+                    mainContent.load('/page/main/account/index.html');
+                });
+            } else {
+                $('#account-tab').hide();
+            }
         });
     </script>
 </body>

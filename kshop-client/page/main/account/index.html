@@ -3,25 +3,25 @@
 
 <head>
     <style>
-        #category-table {
+        #account-table {
             cursor: pointer;
         }
 
-        #category-table tr {
+        #account-table tr {
             transition: 0.25s;
             vertical-align: middle;
             text-align: center;
         }
 
-        #category-table td {
+        #account-table td {
             text-align: center;
         }
 
-        #category-table th {
+        #account-table th {
             white-space: nowrap;
         }
 
-        #category-table-wrapper {
+        #account-table-wrapper {
             min-height: 128px;
             max-width: 1000px;
             max-height: 500px;
@@ -34,25 +34,36 @@
         }
     </style>
 
-    <script src="/page/main/category/index.js"></script>
+    <script src="/page/main/account/index.js"></script>
 </head>
 
 <body>
     <div class="container">
         <div class="row">
-            <div class="col-3 mb-3">
-                <label for="min-created-date" class="form-label">Ngày tạo từ: </label>
-                <input type="date" class="form-control form-control-sm" name="min-created-date" id="min-created-date">
+            <div class="col-6 mb-3">
+                <label for="role" class="form-label">Vai trò</label>
+                <select class="form-select form-select-sm" name="role" id="role">
+                    <option value="">Tất cả</option>
+                    <option value="ADMIN">ADMIN</option>
+                    <option value="MANAGER">MANAGER</option>
+                    <option value="EMPLOYEE">EMPLOYEE</option>
+                </select>
             </div>
             <div class="col-3 mb-3">
-                <label for="max-created-date" class="form-label">Ngày tạo đến: </label>
-                <input type="date" class="form-control form-control-sm" name="max-created-date" id="max-created-date">
+                <label for="min-id" class="form-label">ID từ: </label>
+                <input type="number" min="1" class="form-control form-control-sm" name="min-id" id="min-id"
+                    placeholder="VD: 10">
+            </div>
+            <div class="col-3 mb-3">
+                <label for="max-id" class="form-label">ID đến: </label>
+                <input type="number" min="1" class="form-control form-control-sm" name="max-id" id="max-id"
+                    placeholder="VD: 100">
             </div>
         </div>
         <div class="row mt-3">
             <div class="col-6 d-flex">
                 <input id="search" class="form-control form-control-sm me-2" type="search"
-                    placeholder="Tìm kiếm danh mục sản phẩm" aria-label="Search">
+                    placeholder="Tìm kiếm tài khoản" aria-label="Search">
                 <button id="btn-search" class="col-auto btn btn-sm btn-outline-success" type="submit">
                     <i class="fa-solid fa-magnifying-glass"></i>
                     Tìm kiếm
@@ -81,28 +92,40 @@
             </div>
         </div>
         <div class="position-relative">
-            <div id="category-table-wrapper" class="row my-4">
-                <table id="category-table" class="table">
-                    <thead id="category-thead">
+            <div id="account-table-wrapper" class="row my-4">
+                <table id="account-table" class="table">
+                    <thead id="account-thead">
                         <tr class="text-primary sticky-top bg-light">
                             <th scope="col" class="px-3" key="id">
                                 # <i class="fa-solid fa-sort fa-xs ms-2"></i>
                             </th>
-                            <th scope="col" class="px-4" key="name">
+                            <th scope="col" class="px-4" key="lastName">
+                                Họ
+                                <i class="fa-solid fa-sort fa-xs ms-2"></i>
+                            </th>
+                            <th scope="col" class="px-4" key="firstName">
                                 Tên
+                                <i class="fa-solid fa-sort fa-xs ms-2"></i>
+                            </th>
+                            <th scope="col" class="px-4" key="username">
+                                Tên tài khoản
                                 <i class="fa-solid fa-sort fa-xs ms-2"></i>
                             </th>
                             <th scope="col" class="px-4" key="createdDate">
                                 Ngày tạo
                                 <i class="fa-solid fa-sort fa-xs ms-2"></i>
                             </th>
-                            <th scope="col" class="px-3" key="updatedAt">
+                            <th scope="col" key="updatedAt" style="padding: 0 40px">
                                 Ngày cập nhật
+                                <i class="fa-solid fa-sort fa-xs ms-2"></i>
+                            </th>
+                            <th scope="col" class="px-4" key="role">
+                                Vai trò
                                 <i class="fa-solid fa-sort fa-xs ms-2"></i>
                             </th>
                         </tr>
                     </thead>
-                    <tbody id="category-tbody"></tbody>
+                    <tbody id="account-tbody"></tbody>
                 </table>
                 <div id="loading" class="position-absolute top-50 start-50 spinner-border text-primary" role="status">
                     <span class="visually-hidden">Loading...</span>
