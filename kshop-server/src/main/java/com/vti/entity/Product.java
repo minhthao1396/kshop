@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -43,9 +44,9 @@ public class Product {
     @CreationTimestamp
     private LocalDate createdDate;
 
-    @Column(name = "updated_date", nullable = false, updatable = false)
+    @Column(name = "updated_at", nullable = false)
     @UpdateTimestamp
-    private LocalDate updatedDate;
+    private LocalDateTime updatedAt;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)

@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.springframework.hateoas.RepresentationModel;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -15,7 +16,7 @@ public class CategoryDTO extends RepresentationModel<CategoryDTO> {
     private int id;
     private String name;
     private LocalDate createdDate;
-    private LocalDate updatedDate;
+    private LocalDateTime updatedAt;
     private List<ProductDTO> products;
 
     @Getter
@@ -30,6 +31,6 @@ public class CategoryDTO extends RepresentationModel<CategoryDTO> {
         private String description;
         private String ram;
         private LocalDate createdDate;
-        private LocalDate updatedDate;
+        private LocalDateTime updatedAt;
     }
 }

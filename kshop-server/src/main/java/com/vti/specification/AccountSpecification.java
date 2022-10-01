@@ -12,6 +12,9 @@ public class AccountSpecification {
             return null;
         }
         return hasUsernameLike(form.getSearch())
+                .or(hasFirstNameLike(form.getSearch()))
+                .or(hasLastNameLike(form.getSearch()))
+                .and(hasRoleEqual(form.getRole()))
                 .and(hasIdGreaterThanOrEqualTo(form.getMinId()))
                 .and(hasIdLessThanOrEqualTo(form.getMaxId()));
     }
@@ -22,6 +25,33 @@ public class AccountSpecification {
                 return null;
             }
             return builder.like(root.get(Account_.username), "%" + value.trim() + "%");
+        };
+    }
+
+    public static Specification<Account> hasFirstNameLike(String value) {
+        return (root, query, builder) -> {
+            if (!StringUtils.hasText(value)) {
+                return null;
+            }
+            return builder.like(root.get(Account_.firstName), "%" + value.trim() + "%");
+        };
+    }
+
+    public static Specification<Account> hasLastNameLike(String value) {
+        return (root, query, builder) -> {
+            if (!StringUtils.hasText(value)) {
+                return null;
+            }
+            return builder.like(root.get(Account_.lastName), "%" + value.trim() + "%");
+        };
+    }
+
+    public static Specification<Account> hasRoleEqual(Account.Role role) {
+        return (root, query, builder) -> {
+            if (role == null) {
+                return null;
+            }
+            return builder.equal(root.get(Account_.role), role);
         };
     }
 

@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -46,9 +47,9 @@ public class Account {
     @CreationTimestamp
     private LocalDate createdDate;
 
-    @Column(name = "updated_date", nullable = false, updatable = false)
+    @Column(name = "updated_at", nullable = false)
     @UpdateTimestamp
-    private LocalDate updatedDate;
+    private LocalDateTime updatedAt;
 
     public enum Role {
         ADMIN, MANAGER, EMPLOYEE

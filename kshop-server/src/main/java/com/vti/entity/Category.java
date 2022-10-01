@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -28,9 +29,9 @@ public class Category {
     @CreationTimestamp
     private LocalDate createdDate;
 
-    @Column(name = "updated_date", nullable = false, updatable = false)
+    @Column(name = "updated_at", nullable = false)
     @UpdateTimestamp
-    private LocalDate updatedDate;
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     private List<Product> products;
