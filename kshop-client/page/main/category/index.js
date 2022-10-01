@@ -3,14 +3,30 @@ var sort = null;
 
 $(function () {
     $('#form-modal-container').load('/page/main/category/form-modal.html');
-    $('#delete-modal-container').load('/common/modal/delete-modal.html');
+    $('#delete-modal-container').load('/common/modal/delete-modal.html', null, function () {
+        $('#delete-modal-btn-remove').on('click', function (event) {
+            const ids = $('.selected').find('.id');
+            for (const id of ids) {
+                $.ajax({
+                    method: 'DELETE',
+                    url: 'http://localhost:8080/api/v1/categories/' + id.innerText,
+                    beforeSend: () => showLoading(),
+                    success: function (data) {
+                        loadCategories();
+                    },
+                    complete: () => hideLoading()
+                });
+            }
+            bootstrap.Modal.getOrCreateInstance($('#delete-modal')).hide();
+        });
+    });
 
     addListeners();
     loadCategories();
 });
 
 function addListeners() {
-    $('#btn-search #btn-refresh').on('click', event => loadCategories());
+    $('#btn-search, #btn-refresh').on('click', event => loadCategories());
 
     // Khi người dùng thay đổi page size
     $('#page-size').on('change', event => loadCategories());
@@ -66,26 +82,10 @@ function addListeners() {
         $('#form-name').val(row.find('.name').attr('value'));
     });
 
-    $('#btn-delete').on('click', function(event) {
+    $('#btn-delete').on('click', function (event) {
         $('#delete-modal-title').text('Xóa danh mục sản phẩm');
         const message = `Bạn chắc chắn muốn xóa ${$('.selected').length} danh mục sản phẩm?`;
         $('#delete-modal-body').text(message);
-    });
-
-    $('#delete-modal-btn-remove').on('click', function (event) {
-        const ids = $('.selected').find('.id');
-        for (const id of ids) {
-            $.ajax({
-                method: 'DELETE',
-                url: 'http://localhost:8080/api/v1/categories/' + id.innerText,
-                beforeSend: () => showLoading(),
-                success: function (data) {
-                    loadCategories();
-                },
-                complete: () => hideLoading()
-            });
-        }
-        bootstrap.Modal.getOrCreateInstance($('#delete-modal')).hide();
     });
 }
 
