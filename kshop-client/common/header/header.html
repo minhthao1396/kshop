@@ -38,6 +38,14 @@
                         <a class="nav-link disabled">Liên hệ</a>
                     </li>
                 </ul>
+                <a id="btn-logout" href="/page/authentication/login/login.html" class="btn btn-outline-danger me-4">
+                    <i class="fa-solid fa-right-from-bracket me-2"></i>
+                    Đăng xuất
+                </a>
+                <a id="btn-login" href="/page/authentication/login/login.html" class="btn btn-outline-success me-4">
+                    <i class="fa-solid fa-right-to-bracket me-2"></i>
+                    Đăng nhập
+                </a>
                 <form class="d-flex" role="search">
                     <input id="search" class="form-control me-2" type="search"
                                 placeholder="Tìm kiếm sản phẩm" aria-label="Search">
@@ -49,6 +57,20 @@
             </div>
         </div>
     </nav>
+
+    <script>
+        $('#btn-logout').on('click', event => {
+            storage.clear();
+        })
+
+        if (storage.hasKey('key_token')) {
+            $('#btn-login').hide();
+            $('#btn-logout').show();
+        } else {
+            $('#btn-login').show();
+            $('#btn-logout').hide();
+        }
+    </script>
 </body>
 
 </html>
