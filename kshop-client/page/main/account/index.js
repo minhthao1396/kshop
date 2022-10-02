@@ -133,7 +133,8 @@ function loadAccounts() {
             showAccounts(data.content);
             updateStatus();
         },
-        complete: () => hideLoading(),
+        error: () => location.replace('/common/error/404-not-found.html'),
+        complete: () => hideLoading()
     });
 }
 
