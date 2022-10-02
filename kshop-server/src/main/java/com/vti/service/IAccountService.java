@@ -10,6 +10,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.List;
+
 public interface IAccountService extends UserDetailsService {
     Page<Account> findAll(Pageable pageable, AccountFilterForm form);
 
@@ -26,4 +28,6 @@ public interface IAccountService extends UserDetailsService {
     UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
     Account findByUsername(String username);
+
+    void deleteAll(List<Integer> ids);
 }

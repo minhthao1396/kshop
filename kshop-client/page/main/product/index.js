@@ -5,18 +5,15 @@ $(function () {
     $('#form-modal-container').load('/page/main/product/form-modal.html');
     $('#delete-modal-container').load('/common/modal/delete-modal.html', null, function () {
         $('#delete-modal-btn-remove').on('click', function (event) {
-            const ids = $('.selected').find('.id');
-            for (const id of ids) {
-                $.ajax({
-                    method: 'DELETE',
-                    url: 'http://localhost:8080/api/v1/products/' + id.innerText,
-                    beforeSend: () => showLoading(),
-                    success: function (data) {
-                        loadProducts();
-                    },
-                    complete: () => hideLoading()
-                });
-            }
+            $.ajax({
+                method: 'DELETE',
+                url: 'http://localhost:8080/api/v1/products',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify($('.selected .id').toArray().map(id => id.innerText)),
+                beforeSend: () => showLoading(),
+                success: data => loadProducts(),
+                complete: () => hideLoading()
+            });
             bootstrap.Modal.getOrCreateInstance($('#delete-modal')).hide();
         });
     });

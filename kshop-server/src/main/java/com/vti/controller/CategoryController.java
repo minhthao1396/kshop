@@ -72,4 +72,9 @@ public class CategoryController {
     public void deleteById(@PathVariable("id") @CategoryExistsById int id) {
         service.deleteById(id);
     }
+
+    @DeleteMapping
+    public void deleteAll(@RequestBody List<@CategoryExistsById Integer> ids) {
+        service.deleteAll(ids);
+    }
 }

@@ -60,4 +60,9 @@ public class ProductController {
     public void deleteById(@PathVariable("id") @ProductExistsById int id) {
         service.deleteById(id);
     }
+
+    @DeleteMapping
+    public void deleteAll(@RequestBody List<@ProductExistsById Integer> ids) {
+        service.deleteAll(ids);
+    }
 }

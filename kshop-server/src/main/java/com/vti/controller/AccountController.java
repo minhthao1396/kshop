@@ -61,4 +61,9 @@ public class AccountController {
     public void deleteById(@PathVariable("id") @AccountExistsById int id) {
         service.deleteById(id);
     }
+
+    @DeleteMapping
+    public void deleteAll(@RequestBody List<@AccountExistsById Integer> ids) {
+        service.deleteAll(ids);
+    }
 }

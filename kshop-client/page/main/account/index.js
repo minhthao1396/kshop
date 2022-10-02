@@ -5,18 +5,15 @@ $(function () {
     $('#form-modal-container').load('/page/main/account/form-modal.html');
     $('#delete-modal-container').load('/common/modal/delete-modal.html', null, function () {
         $('#delete-modal-btn-remove').on('click', function (event) {
-            const ids = $('.selected').find('.id');
-            for (const id of ids) {
-                $.ajax({
-                    method: 'DELETE',
-                    url: 'http://localhost:8080/api/v1/accounts/' + id.innerText,
-                    beforeSend: () => showLoading(),
-                    success: function (data) {
-                        loadAccounts();
-                    },
-                    complete: () => hideLoading()
-                });
-            }
+            $.ajax({
+                method: 'DELETE',
+                url: 'http://localhost:8080/api/v1/accounts',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify($('.selected .id').toArray().map(id => id.innerText)),
+                beforeSend: () => showLoading(),
+                success: data => loadAccounts(),
+                complete: () => hideLoading()
+            });
             bootstrap.Modal.getOrCreateInstance($('#delete-modal')).hide();
         });
     });
@@ -86,8 +83,8 @@ function addListeners() {
     });
 
     $('#btn-delete').on('click', function (event) {
-        $('#delete-modal-title').text('Xóa sản phẩm');
-        const message = `Bạn chắc chắn muốn xóa ${$('.selected').length} sản phẩm?`;
+        $('#delete-modal-title').text('Xóa tài khoản');
+        const message = `Bạn chắc chắn muốn xóa ${$('.selected').length} tài khoản?`;
         $('#delete-modal-body').text(message);
     });
 }
