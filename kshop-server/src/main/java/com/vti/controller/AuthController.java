@@ -3,6 +3,7 @@ package com.vti.controller;
 import com.vti.dto.ProfileDTO;
 import com.vti.entity.Account;
 import com.vti.form.AccountCreateForm;
+import com.vti.form.AuthChangePasswordForm;
 import com.vti.service.IAccountService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,10 @@ public class AuthController {
     @PostMapping("/register")
     public void register(@RequestBody @Valid AccountCreateForm form) {
         service.create(form);
+    }
+
+    @PutMapping("/change-password")
+    public void changePassword(@RequestBody @Valid AuthChangePasswordForm form) {
+        service.changePassword(form);
     }
 }

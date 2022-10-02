@@ -1,6 +1,7 @@
 const KEY_FULL_NAME = 'key_full_name';
 const KEY_ROLE = 'key_role';
 const KEY_TOKEN = 'key_token';
+const KEY_USERNAME = 'key_username';
 
 $(function () {
     $('#toast-container').load('/common/toast/toast.html');
@@ -42,6 +43,7 @@ function saveUserInfo(data, token, rememberMe) {
     storage.setItem(KEY_TOKEN, token);
     storage.setItem(KEY_FULL_NAME, data.fullName);
     storage.setItem(KEY_ROLE, data.role);
+    storage.setItem(KEY_USERNAME, data.username);
 }
 
 function showToast(title, message) {

@@ -4,6 +4,7 @@ import com.vti.entity.Account;
 import com.vti.form.AccountCreateForm;
 import com.vti.form.AccountFilterForm;
 import com.vti.form.AccountUpdateForm;
+import com.vti.form.AuthChangePasswordForm;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,4 +31,6 @@ public interface IAccountService extends UserDetailsService {
     Account findByUsername(String username);
 
     void deleteAll(List<Integer> ids);
+
+    void changePassword(AuthChangePasswordForm form);
 }

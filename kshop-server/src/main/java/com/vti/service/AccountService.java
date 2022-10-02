@@ -4,6 +4,7 @@ import com.vti.entity.Account;
 import com.vti.form.AccountCreateForm;
 import com.vti.form.AccountFilterForm;
 import com.vti.form.AccountUpdateForm;
+import com.vti.form.AuthChangePasswordForm;
 import com.vti.repository.IAccountRepository;
 import com.vti.specification.AccountSpecification;
 import org.modelmapper.ModelMapper;
@@ -16,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -84,5 +86,11 @@ public class AccountService implements IAccountService {
     @Override
     public void deleteAll(List<Integer> ids) {
         repository.deleteAllById(ids);
+    }
+
+    @Override
+    @Transactional
+    public void changePassword(AuthChangePasswordForm form) {
+        repository.changePassword(form.getUsername(), passwordEncoder.encode(form.getPassword()));
     }
 }
