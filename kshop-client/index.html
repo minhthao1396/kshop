@@ -47,6 +47,17 @@
                     'Authorization': "Basic " + storage.getItem('key_token')
                 }
             })
+
+            $.ajaxPrefilter(function (options, originalOptions, jqXHR) {
+                const lang = storage.getItem('key_lang');
+                if (lang && originalOptions.method == 'POST') {
+                    if (originalOptions.url.includes('?')) {
+                        options.url = originalOptions.url + `&lang=${lang}`;
+                    } else {
+                        options.url = originalOptions.url + `?lang=${lang}`;
+                    }
+                }
+            });
         });
     </script>
 </body>
