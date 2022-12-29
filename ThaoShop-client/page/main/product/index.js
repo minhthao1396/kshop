@@ -117,7 +117,8 @@ function loadCategories() {
     $.ajax({
         method: 'GET',
         url: 'http://localhost:8080/api/v1/categories',
-        success: (data) => showCategories(data.content)
+        success: (data) => showCategories(data.content),
+        error: () => location.replace('/common/error/404-not-found.html')
     });
 }
 
@@ -158,7 +159,8 @@ function loadProducts() {
             showProducts(data.content);
             updateStatus();
         },
-        complete: () => hideLoading(),
+        error: () => location.replace('/common/error/404-not-found.html'),
+        complete: () => hideLoading()
     });
 }
 

@@ -77,6 +77,17 @@
                         Tìm kiếm
                     </button>
                 </form>
+                <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+                    <li class="nav-item dropdown">
+                        <button id="btn-language" class="nav-link dropdown-toggle btn text-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Tiếng Việt
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><button onclick="changeLanguage('vi', 'Tiếng Việt')" type="button" class="dropdown-item">Tiếng Việt</a></li>
+                            <li><button onclick="changeLanguage('en', 'Tiếng Anh')" type="button" class="dropdown-item">Tiếng Anh</a></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
         </div>
     </nav>
@@ -93,6 +104,11 @@
         } else {
             $('#btn-login').show();
             $('#profile').hide();
+        }
+
+        function changeLanguage(lang, text) {
+            storage.setItem('key_lang', lang);
+            document.getElementById('btn-language').innerText = text;
         }
     </script>
 </body>
